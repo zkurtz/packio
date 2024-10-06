@@ -6,17 +6,22 @@ TODO
 
 ## Development
 
+Install poetry:
+```
+curl -sSL https://install.python-poetry.org | python3 -
+```
+
 Install [pyenv and its virtualenv plugin](https://github.com/pyenv/pyenv-virtualenv). Then:
 ```
 pyenv install 3.12.2
 pyenv global 3.12.2
-pyenv virtualenv 3.12.2
+pyenv virtualenv 3.12.2 packio
 pyenv activate packio
 ```
 
-Install poetry:
+Install this package and its dependencies in your virtual env:
 ```
-curl -sSL https://install.python-poetry.org | python3 -
+poetry install
 ```
 
 Set up git hooks:
