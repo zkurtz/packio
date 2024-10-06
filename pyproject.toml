@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "packio"
+version = "0.0.1"
+description = "IO for multiple python objects to/from a single file"
+authors = ["Zach Kurtz <zkurtz@gmail.com>"]
+readme = "README.md"
+
+[project.urls]
+Source = "https://github.com/zkurtz/packio"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.6.3"
+pyright = "^1.1.378"
+pytest = "^8.3.2"
+pre-commit = "^3.8.0"
+black = "^24.8.0"
+build = "^1.2.1"
+twine = "^5.1.1"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = []
+
+[tool.pyright]
+include = ["packio"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.black]
+line-length = 120
