@@ -1,6 +1,13 @@
 # packio
 
-Packio makes it easy to use a single file to store and retrieve multiple python object. A typical use case is in defining IO methods on a dataclass containing heterogenous data objects, such as a dictionary and a data frame.
+Packio allows you to use a single file to store and retrieve multiple python objects. A typical use case is to define IO methods on an instance of a class that contains multiple types of objects, such as a
+- dictionary
+- data frame
+- string
+- trained ML model (for example, lightgbm and xgboost each have built-in serialization methods for trained models)
+
+When a class contains multiple of these data types, or even multiple instances of the same data type, saving and loading the data associated with a class tends to become unwieldy, requiring the user to either keep track multiple file paths or to fall back to using pickle, which introduces other problems (see below). The goal of packio is to make it as easy as possible to write `save` and `load` methods for such a class while allowing you to keep using all of your favorite object-type-specific serializers (i.e. `to_parquet` for pandas, `json` for dictionaries, `pathlib.Path.write_text` for strings, etc).
+
 
 ## Why not pickle?
 

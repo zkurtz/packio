@@ -1,9 +1,10 @@
 [tool.poetry]
 name = "packio"
-version = "0.0.1"
+version = "0.0.2"
 description = "IO for multiple python objects to/from a single file"
 authors = ["Zach Kurtz <zkurtz@gmail.com>"]
 readme = "README.md"
+homepage = "https://github.com/zkurtz/packio"
 
 [project.urls]
 Source = "https://github.com/zkurtz/packio"
