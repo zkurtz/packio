@@ -90,7 +90,7 @@ pyenv activate packio
 
 Install this package and its dependencies in your virtual env:
 ```
-poetry install
+poetry install --with dev
 ```
 
 Set up git hooks:
