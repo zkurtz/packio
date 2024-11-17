@@ -1,3 +1,13 @@
+Metadata-Version: 2.1
+Name: packio
+Version: 0.0.4
+Summary: IO for multiple python objects to/from a single file
+Author-email: Zach Kurtz <zkurtz@gmail.com>
+Project-URL: Source, https://github.com/zkurtz/packio
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
 # packio
 
 Packio allows you to use a single file to store and retrieve multiple python objects. A typical use case is to define IO methods on an instance of a class that contains multiple types of objects, such as a

@@ -1,0 +1,10 @@
+LICENSE
+README.md
+pyproject.toml
+packio/__init__.py
+packio/io.py
+packio.egg-info/PKG-INFO
+packio.egg-info/SOURCES.txt
+packio.egg-info/dependency_links.txt
+packio.egg-info/top_level.txt
+tests/test_packio.py
