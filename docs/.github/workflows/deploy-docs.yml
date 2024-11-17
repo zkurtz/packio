@@ -1,0 +1,29 @@
+name: Deploy Docs
+
+on:
+  push:
+    branches:
+      - main  # or your main branch name
+  pull_request:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+
+    - name: Install dependencies
+      run: |
+        pip install uv
+
+    - name: Build HTML
+      run: uv run sphinx-build -b html -c docs docs docs/_build/html
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: github.ref == 'refs/heads/main'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: docs/_build/html
+        publish_branch: gh-pages
