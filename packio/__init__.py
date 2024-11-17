@@ -6,3 +6,4 @@ from packio.io import Reader as Reader
 from packio.io import Writer as Writer
 
 __version__ = version("packio")
+__all__ = ["Reader", "Writer"]

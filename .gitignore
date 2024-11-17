@@ -9,6 +9,13 @@ __pycache__/
 # Build artifacts
 dist/
 build/
+*.egg-info/
+.DS_Store
+docs/doctrees/
+docs/html/
+docs/_build/
+docs/_source/
+docs/_templates/
 
 # IDE-specific files
 .idea/
