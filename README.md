@@ -8,10 +8,13 @@ Packio allows you to use a single file to store and retrieve multiple python obj
 
 When a class contains multiple of these data types, or even multiple instances of the same data type, saving and loading the data associated with a class tends to become unwieldy, requiring the user to either keep track multiple file paths or to fall back to using pickle, which introduces other problems (see below). The goal of packio is to make it as easy as possible to write `save` and `load` methods for such a class while allowing you to keep using all of your favorite object-type-specific serializers (i.e. `to_parquet` for pandas, `json` for dictionaries, `pathlib.Path.write_text` for strings, etc).
 
+## Why a single file and not a directory?
+
+In a word, *encapsulation*. Copy/move operations with a file are simpler than a directory, especially when it comes to moving data across platforms such as to/from the cloud. A file is also more tamper-resistant - it's typically harder to accidentally modify the contents of a file than it is for someone to add or remove files or subdirectories in a directory.
 
 ## Why not pickle?
 
-The most common approach for serialization of such complex python objects is to use `pickle`. There are many reasons do dislike pickle. As summarized by Gemini, "Python's pickle module, while convenient, has drawbacks. It poses security risks due to potential code execution vulnerabilities when handling untrusted data. Compatibility issues arise because it's Python-specific and version-dependent.  Maintaining pickle can be challenging due to refactoring difficulties and complex debugging." See also [Ben Frederickson](https://www.benfrederickson.com/dont-pickle-your-data/).
+Although `pickle` may be the most common approach for serialization of complex python objects, there are strong reasons to dislike pickle. As summarized by Gemini, "Python's pickle module, while convenient, has drawbacks. It poses security risks due to potential code execution vulnerabilities when handling untrusted data. Compatibility issues arise because it's Python-specific and version-dependent.  Maintaining pickle can be challenging due to refactoring difficulties and complex debugging." See also [Ben Frederickson](https://www.benfrederickson.com/dont-pickle-your-data/).
 
 ## Example
 
