@@ -1,48 +1,26 @@
 """Main tests of packio."""
 
-import json
-from dataclasses import dataclass
-from pathlib import Path
-
+import dummio
+import pandas as pd
 from packio import Reader, Writer
 
 
-@dataclass
-class MyData:
-    """A simple data class for testing.
+def test_io(tmp_path) -> None:
+    """Test the dummio package."""
+    # define some objects
+    df = pd.DataFrame({"a": [1, 2], "b": [3, 4]})
+    lookup = {"a": 1, "b": 2}
 
-    Attributes:
-        documentation: Description of what this class is all about.
-        lookup: A dictionary.
-    """
+    # save the objects to a single file
+    filepath = tmp_path / "data.packio"
+    with Writer(filepath) as writer:
+        df.to_parquet(writer.file("df.parquet"))
+        dummio.json.save(lookup, filepath=writer.file("lookup.json"))
 
-    documentation: str
-    lookup: dict[str, int]
+    # load the objects from the file
+    with Reader(filepath) as reader:
+        df2 = pd.read_parquet(reader.file("df.parquet"))
+        lookup2 = dummio.json.load(reader.file("lookup.json"))
 
-    def save(self, path: Path) -> None:
-        """Save the data class to disk."""
-        with Writer(path) as writer:
-            writer.file("documentation.txt").write_text(self.documentation)
-            with writer.file("lookup.json").open("w") as f:
-                json.dump(self.lookup, f)
-
-    @classmethod
-    def from_file(cls, path: Path) -> "MyData":
-        """Load the data class from disk."""
-        with Reader(path) as reader:
-            documentation = reader.file("documentation.txt").read_text()
-            with reader.file("lookup.json").open() as f:
-                lookup = json.load(f)
-        return cls(documentation=documentation, lookup=lookup)
-
-
-def test_packio(tmp_path):
-    """Test the packio package."""
-    data = MyData(
-        documentation="This is a test.",
-        lookup={"a": 1, "b": 2},
-    )
-    data.save(tmp_path / "data.mydata")
-    loaded = MyData.from_file(tmp_path / "data.mydata")
-    assert loaded.documentation == data.documentation
-    assert loaded.lookup == data.lookup
+    assert df.equals(df2)
+    assert lookup == lookup2
