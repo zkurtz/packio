@@ -77,7 +77,7 @@ assert loaded.lookup == data.lookup
 
 Create and activate a virtual env for dev ops:
 ```
-git clone git@github.com:zkurtz/listwrap.git
+git clone git@github.com:zkurtz/packio.git
 cd packio
 pip install uv
 uv sync
