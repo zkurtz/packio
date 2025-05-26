@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 
 from packio import unzipflat, zipflat
+from packio.zip import unzip, zip
 
 
 def test_zipflat(tmp_path: Path) -> None:
@@ -76,3 +77,36 @@ def test_unzipflat_not_zip(tmp_path: Path) -> None:
     # Try to unzip the file.
     with pytest.raises(ValueError, match="is not a zip archive."):
         unzipflat(file=file, dest_dir=tmp_path)
+
+
+def test_zip_unzip(tmp_path: Path) -> None:
+    """Test the zip and unzip functions."""
+    # Create a directory with some files.
+    dir_path = tmp_path / "test_dir"
+    dir_path.mkdir()
+    file1 = dir_path / "file1.txt"
+    file1.write_text("Hello, world!")
+    file2 = dir_path / "file2.txt"
+    file2.write_text("Goodbye, world!")
+    empty_subdir = dir_path / "empty_subdir"
+    empty_subdir.mkdir()
+    nonempty_subdir = dir_path / "subdir"
+    nonempty_subdir.mkdir()
+    subfile = nonempty_subdir / "subfile.txt"
+    subfile.write_text("This is a subfile.")
+
+    # Zip the directory.
+    zip_path = tmp_path / "archive.zip"
+    zip(dir_path, outfile=zip_path)
+
+    # Unzip the directory.
+    unzip_path = tmp_path / "unzipped"
+    unzip_path.mkdir()
+    unzip(file=zip_path, dest_dir=unzip_path)
+
+    # Check the unzipped files.
+    items = list(item.name for item in unzip_path.iterdir())
+    assert sorted(items) == ["empty_subdir", "file1.txt", "file2.txt", "subdir"]
+    assert (unzip_path / "file1.txt").read_text() == "Hello, world!"
+    assert (unzip_path / "empty_subdir").is_dir()
+    assert (unzip_path / "subdir" / "subfile.txt").read_text() == "This is a subfile."

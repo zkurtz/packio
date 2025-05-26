@@ -1,5 +1,6 @@
 """Tools to simplify zipping and unzipping of files."""
 
+import shutil
 import tempfile
 import zipfile
 from pathlib import Path
@@ -31,8 +32,32 @@ def zipflat(*, files: list[PathType], outfile: PathType) -> None:
             zipf.write(file, arcname=file.name)
 
 
+def zip(directory: PathType, *, outfile: PathType, format: str = "zip") -> None:
+    """Zip a directory to create an archive.
+
+    This preserves the directory structure within the zip file. Implemented as a thin wrapper around
+    shutil.make_archive.
+
+    Args:
+        directory: Directory containing files to zip.
+        outfile: Full path to the resulting zip archive, including any extension. Users may choose not to add an
+            extension (overriding the behavior of `shutil.make_archive`, which adds an extension).
+        format: Format of the archive, default is 'zip'. Other formats like 'tar', 'gztar', etc. can be used.
+    """
+    if not Path(directory).is_dir():
+        raise ValueError(f"Provided path {directory} is not a directory.")
+    shutil.make_archive(
+        base_name=str(outfile),
+        format=format,
+        root_dir=directory,
+        base_dir=None,
+    )
+    # make_archive postfixes the format to the specified outfile; reverse that operation:
+    shutil.move(f"{outfile}.{format}", outfile)
+
+
 def unzip(*, file: PathType, dest_dir: PathType) -> None:
-    """Unzip a file into a destination directory.
+    """Unzip an archive into a destination directory.
 
     Args:
         file: Path to the zip archive.

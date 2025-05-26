@@ -1,12 +1,14 @@
 """Main tests of packio."""
 
+from pathlib import Path
+
 import dummio
 import pandas as pd
 
 from packio import Reader, Writer
 
 
-def test_io(tmp_path) -> None:
+def test_io(tmp_path: Path) -> None:
     """Test the dummio package."""
     # define some objects
     df = pd.DataFrame({"a": [1, 2], "b": [3, 4]})
