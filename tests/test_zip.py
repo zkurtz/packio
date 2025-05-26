@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from packio import unzipflat, zipflat
-from packio.zip import unzip, zip
+from packio.zipping import unzip, zip
 
 
 def test_zipflat(tmp_path: Path) -> None:
