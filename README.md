@@ -1,6 +1,8 @@
 # packio
 
-Packio allows you to use a single file to store and retrieve multiple python objects. For example:
+Packio allows you to use a single file to store and retrieve multiple python objects. See [the docs](https://packio.readthedocs.io/en/latest/).
+
+Example:
 ```
 import dummio
 import pandas as pd
