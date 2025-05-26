@@ -1,6 +1,6 @@
 [project]
 name = "packio"
-version = "0.1.0"
+version = "0.1.1"
 description = "IO for multiple python objects to/from a single file"
 authors = [{ name = "Zach Kurtz", email = "zkurtz@gmail.com" }]
 readme = "README.md"
@@ -25,6 +25,15 @@ Source = "https://github.com/zkurtz/packio"
 [tool.uv]
 package = true
 
+[tool.pytest.ini_options]
+addopts = "--import-mode=importlib"
+testpaths = ["tests"]
+
+[tool.pyright]
+# docs: https://github.com/microsoft/pyright/blob/main/docs/configuration.md
+typeCheckingMode = "standard" # This is the default, but consider "basic" or "strict" as alternatives at the extremes
+include = ["packio", "tests"]
+
 [tool.ruff]
 line-length = 120
 
@@ -32,11 +41,17 @@ line-length = 120
 select = [
   # ruff defaults:
   "E4", "E7", "E9", "F",
+  # additional rule groups:
+  "ANN", # require pyright type annotations
+  "D", # google-style docstrings
+  "E5", # pycodestyle line formatting including line length
   "I", # flake8-import-order
   "TID", # flake8-tidy-imports
-  "D", # google-style docstrings
 ]
 ignore = [
+  "ANN002", # Missing type annotation for *args
+  "ANN003", # Missing type annotation for **kwargs
+  "ANN401", # Dynamically typed expressions (typing.Any) are disallowed in `**kwargs`
   "D202", # would require one blank line after the last section of a multi-line docstring
   "D203", # would require one blank line at start of class docstring
   "D213", # would require multi-line docstring to start with a hard return
@@ -49,10 +64,7 @@ ban-relative-imports = "all"
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["D104"] # would require module-level documentation
-"test_*.py" = ["D"]
-
-[tool.pyright]
-include = ["packio", "tests"]
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
+"test_*.py" = [
+  "ANN201", # would require return type hint (normally None) for test functions
+  "D", # would put requirements on docstrings in test files
+]
