@@ -1,0 +1,27 @@
+h1.logo a {
+white-space: nowrap;
+display: inline-block;
+}
+
+/* Reduce space between paragraph and list */
+p + ul {
+margin-top: -10px;
+}
+
+/* Make all cross-references in quick-links section blue without underline by default */
+.quick-links a.reference,
+.quick-links a.internal,
+.quick-links code.xref,
+.quick-links span.xref {
+    color: #0072B2 !important;  /* Standard blue link color */
+    text-decoration: none !important;  /* No underline by default */
+}
+
+/* Add underline on hover for better affordance */
+.quick-links a.reference:hover,
+.quick-links a.internal:hover,
+.quick-links code.xref:hover,
+.quick-links span.xref:hover {
+    color: #005999 !important;  /* Slightly darker blue on hover */
+    text-decoration: underline !important;  /* Add underline on hover */
+}
